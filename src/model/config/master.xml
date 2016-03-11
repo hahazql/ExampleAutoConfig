@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "spring-beans-2.0.dtd">
+<beans>
+    <bean id="ConfigDataDao" class="model.dao.ConfigDataDaoImpl">
+        <property name="sqlMapClient" ref="management_sqlMapClient" />
+    </bean>
+
+    <bean id="ProjectDataDao" class="model.dao.ProjectDataDaoImpl">
+        <property name="sqlMapClient" ref="management_sqlMapClient"/>
+    </bean>
+</beans>

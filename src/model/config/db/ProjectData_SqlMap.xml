@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "spring-beans-2.0.dtd" >
+<sqlMap namespace="projectData">
+
+    <resultMap id="BaseResultMap" class="model.bean.ProjectData">
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="projectDesc" property="projectDesc" jdbcType="VARCHAR" />
+        <result column="jarPath" property="jarPath" jdbcType="VARCHAR" />
+        <result column="configDataPath" property="configDataPath" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <insert id="insert" parameterClass="model.bean.ProjectData" >
+        INSERT INTO `projectData`
+        (`name`, `projectDesc`,`jarPath`,`configDataPath`)
+        VALUES
+        (#name:VARCHAR#, #projectDesc:VARCHAR#,#jarPath:VARCHAR#,#configDataPath:VARCHAR#)
+        <selectKey resultClass="java.lang.Integer" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterClass="int" >
+        DELETE FROM `projectData`
+        WHERE
+        id = #id:INTEGER#
+    </delete>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        `id`, `name`, `projectDesc`,`jarPath`,`configDataPath`
+        FROM `projectData`
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="int">
+        SELECT
+        `id`, `name`, `projectDesc`,`jarPath`,`configDataPath`
+        FROM `projectData`
+        WHERE
+        id = #id:INTEGER#
+        LIMIT 1
+    </select>
+
+    <update id="updateByPrimaryKey" parameterClass="model.bean.ProjectData">
+        UPDATE `projectData`
+        SET
+        name=#name:VARCHAR#,
+        projectDesc=#projectDesc:VARCHAR#,
+        jarPath=#jarPath:VARCHAR#,
+        configDataPath=#configDataPath:VARCHAR#
+        WHERE
+        id = #id:INTEGER#
+    </update>
+
+</sqlMap>

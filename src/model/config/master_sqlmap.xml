@@ -1,0 +1,26 @@
+<!DOCTYPE sqlMapConfig
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+    <!--
+        cacheModelsEnabled 缓存模式
+        enhancementEnabled 针对POJO启用字节码增强机制
+        lazyLoadingEnabled 延迟加载
+        maxRequests 最大并发数
+        maxSessions 最大并发客户端数
+        maxTransactions 最大并发事物数
+        useStatementNamespaces 是否使用namespace
+    -->
+    <settings cacheModelsEnabled="true"
+              enhancementEnabled="true"
+              lazyLoadingEnabled="true"
+              maxRequests="128"
+              maxSessions="64"
+              maxTransactions="64"
+              useStatementNamespaces="true"
+            />
+
+    <sqlMap resource="model/config/db/ConfigData_SqlMap.xml" ></sqlMap>
+    <sqlMap resource="model/config/db/ProjectData_SqlMap.xml"></sqlMap>
+</sqlMapConfig>

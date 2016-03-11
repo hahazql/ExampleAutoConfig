@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "spring-beans-2.0.dtd">
+<beans>
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>file:${user.dir}/king5Controller.properties</value>
+        </property>
+        <property name="fileEncoding" value="utf-8"/>
+    </bean>
+
+    <bean id="ServerConfig" class="model.config.ServerConfig">
+        <property name="rootDir" value="${dir.root}" />
+        <property name="serverName" value="${server.name}" />
+    </bean>
+
+    <bean id="dbDriver" scope="singleton" class="java.lang.String">
+        <constructor-arg value="com.mysql.jdbc.Driver" />
+    </bean>
+
+    <bean id="dbUser" scope="singleton" class="java.lang.String">
+        <constructor-arg value="${db.user}" />
+    </bean>
+
+    <bean id="dbPass" scope="singleton" class="java.lang.String">
+        <constructor-arg value="${db.pass}" />
+    </bean>
+
+    <bean id="management_dbUrl" scope="singleton" class="java.lang.String">
+        <constructor-arg
+                value="jdbc:mysql://${db.host}/${db.background}?autoReconnect=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull" />
+    </bean>
+
+    <!-- 数据源公共的内容 -->
+    <bean id="abstractDataSource" class="com.jolbox.bonecp.BoneCPDataSource"
+          scope="singleton" destroy-method="close">
+        <property name="username" ref="dbUser" />
+        <property name="password" ref="dbPass" />
+        <property name="driverClass" ref="dbDriver" />
+        <property name="idleConnectionTestPeriod" value="25" />
+        <property name="idleMaxAge" value="180" />
+        <property name="maxConnectionsPerPartition" value="100" />
+        <property name="minConnectionsPerPartition" value="20" />
+        <property name="partitionCount" value="4" />
+        <property name="acquireIncrement" value="20" />
+        <property name="connectionTimeout" value="3000" />
+    </bean>
+
+
+    <!-- 后台配置 -->
+    <bean id="management_ds" parent="abstractDataSource">
+        <property name="jdbcUrl" ref="management_dbUrl" />
+    </bean>
+
+    <bean id="management_sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation">
+            <value>model/config/master_sqlmap.xml</value>
+        </property>
+        <property name="dataSource" ref="management_ds" />
+    </bean>
+
+</beans>
